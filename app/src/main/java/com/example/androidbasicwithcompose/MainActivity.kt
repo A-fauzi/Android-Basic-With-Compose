@@ -5,10 +5,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,7 +28,7 @@ class MainActivity : ComponentActivity() {
             AndroidBasicWithComposeTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
-                    BirthdayGreetingWithImage(stringResource(R.string.happy_birthday_saying), "Nanda")
+                    DiceWithButtonAndImage(modifier = Modifier.padding(16.dp))
                 }
             }
         }
@@ -35,50 +36,40 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun BirthdayGreetingWithImage(message: String, from: String) {
-    val image = painterResource(id = R.drawable.androidparty)
+fun DiceWithButtonAndImage(modifier: Modifier) {
+    var result by remember { mutableStateOf(1) }
 
-    Box {
-        Image(
-            painter = image,
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth(),
-            contentScale = ContentScale.Crop
-        )
-        Saying(name = message, sender = from)
+    val imageResource = when(result) {
+        1 -> R.drawable.dice_1
+        2 -> R.drawable.dice_2
+        3 -> R.drawable.dice_3
+        4 -> R.drawable.dice_4
+        5 -> R.drawable.dice_5
+        else -> R.drawable.dice_6
     }
-}
 
-
-@Composable
-fun Saying(name: String, sender: String) {
     Column(
-        modifier = Modifier
-            .padding(top = 16.dp)
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = "$name!",
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentWidth(Alignment.CenterHorizontally)
+        Image(
+            painter = painterResource(imageResource),
+            contentDescription = result.toString()
         )
-
-        Text(
-            text = "- From $sender",
-            fontSize = 12.sp,
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentWidth(Alignment.CenterHorizontally)
-        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = { result = (1..6).random() }) {
+            Text(text = stringResource(R.string.roll))
+        }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     AndroidBasicWithComposeTheme {
-        BirthdayGreetingWithImage(stringResource(R.string.happy_birthday_saying), "Nanda")
+        DiceWithButtonAndImage(modifier = Modifier.padding(16.dp))
     }
+
+
 }
