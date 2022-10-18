@@ -3,7 +3,6 @@ package com.example.androidbasicwithcompose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
@@ -17,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import com.example.androidbasicwithcompose.ui.theme.AndroidBasicWithComposeTheme
 
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -34,7 +32,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting(name: String) {
     Surface(color = Color.Magenta) {
-        Text(text = "Hi, my name is $name!", modifier = Modifier.padding(24.dp))
+        Text(text = "Hi, My name is $name!", Modifier.padding(24.dp))
     }
 }
 
