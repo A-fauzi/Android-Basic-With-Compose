@@ -1,10 +1,28 @@
 <resources>
-    <string name="app_name">Android Basic With Compose</string>
-    <string name="happy_birthday_saying">Happy Birhday Akhmad Fauzi</string>
-    <string name="roll">Roll</string>
+    <string name="app_name">Tip Time</string>
+    <string name="calculate_tip">Calculate Tip</string>
+    <string name="cost_of_service">Cost of Service</string>
+    <string name="tip_amount">Tip amount: %s</string>
+    <string name="how_was_the_service">Tip(%)</string>
+    <string name="round_up_tip">Round up tip?</string>
+    <string name="bill_amount">Bill amount</string>
+    <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_practice">Practice</string>
-    <string name="lemon_tree">Tap the lemon tree to select a lemon </string>
-    <string name="lemon_squeeze">Keep tapping the lemon to squeeze it</string>
-    <string name="lemon_drink">Tap the lemonade to drink it</string>
-    <string name="lemon_restart">Tap the empty glass to start again</string>
+
+    <string name="title_blue_period">Blue Period</string>
+    <string name="desc_blue_period">Yatora Yaguchi adalah siswa yang cukup populer yang unggul di sekolah, tetapi sering berurusan dengan kekosongan batin dan frustrasi.</string>
+
+    <string name="title_clay_more">Clay More</string>
+    <string name="desc_clay_more">Claymore adalah nama yang diberikan untuk sebuah pedang dua-tangan asal Skotlandia, claymore merupakan sebuah pedang dua tangan atau yang biasa disebut dengan "two handed sword" biasa dipakai oleh orang zaman dahulu untuk perang</string>
+
+    <string name="title_kabaneri">Kabaneri</string>
+    <string name="desc_kabaneri">Kabaneri of the Iron Fortress (甲鉄城のカバネリ Kōtetsujō no Kabaneri) adalah sebuah seri anime karya Wit Studio.</string>
+
+    <string name="title_my_hero_academy">My Hero Acdemy</string>
+    <string name="desc_my_hero_acdemy">Musim keempat dari seri anime My Hero Academia diproduksi oleh Bones dan disutradarai oleh Kenji Nagasaki. </string>
+
+    <string name="title_one_piece">One Piece</string>
+    <string name="desc_one_piece">Anda mungkin memperhatikan bahwa banyak aplikasi yang mendukung tablet dan ponsel mungkin terlihat berbeda di media yang berbeda. Perbedaan ini terjadi karena, seringkali, aplikasi mendukung tata letak yang berbeda untuk ukuran layar yang berbeda.</string>
+
+
 </resources>

@@ -1,34 +1,23 @@
 package com.example.androidbasicwithcompose
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.androidbasicwithcompose.ui.theme.AndroidBasicWithComposeTheme
 
 class Practice : ComponentActivity() {
@@ -41,114 +30,157 @@ class Practice : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Drinking()
+                    AnimeList()
                 }
             }
         }
     }
 }
 
-enum class BounceState { PRESSED, RELEASED }
-
-
 @Composable
-fun Drinking() {
-    var currentState: BounceState by remember { mutableStateOf(BounceState.RELEASED) }
-    val transition = updateTransition(targetState = currentState, label = "animation")
-    val scale: Float by transition
-        .animateFloat(
-            transitionSpec = { spring(stiffness = 900f) },
-            label = ""
-        ) { state ->
-            if (state == BounceState.PRESSED) 0.80f
-            else 1f
-        }
+fun AnimeList() {
+    var statePressButton by remember { mutableStateOf(false) }
 
-    val context = LocalContext.current
-
-    var imageResource = 0
-    var description = 0
-    var descriptionSqueeze = ""
-
-    var stateProcess by remember { mutableStateOf(1) }
-    var squeezeLemonState by remember { mutableStateOf(0) }
-
-    when (stateProcess) {
-        1 -> {
-            imageResource = R.drawable.lemon_tree
-            description = R.string.lemon_tree
-        }
-        2 -> {
-            imageResource = R.drawable.lemon_squeeze
-            description = R.string.lemon_squeeze
-            descriptionSqueeze = "squeeze $squeezeLemonState of 5"
-        }
-        3 -> {
-            imageResource = R.drawable.lemon_drink
-            description = R.string.lemon_drink
-        }
-        else -> {
-            imageResource = R.drawable.lemon_restart
-            description = R.string.lemon_restart
-        }
+    var stateImage by remember { mutableStateOf(1) }
+    val image = when (stateImage) {
+        1 -> R.drawable.one_piece
+        2 -> R.drawable.clay_more
+        3 -> R.drawable.kabaneri
+        4 -> R.drawable.my_hero_academy
+        else -> R.drawable.blue_period
     }
+
+    var stateTitle by remember { mutableStateOf(1) }
+    val title = when (stateTitle) {
+        1 -> R.string.title_one_piece
+        2 -> R.string.title_clay_more
+        3 -> R.string.title_kabaneri
+        4 -> R.string.title_my_hero_academy
+        else -> R.string.title_blue_period
+    }
+
+    var stateDesc by remember { mutableStateOf(1) }
+    val description = when (stateDesc) {
+        1 -> R.string.desc_one_piece
+        2 -> R.string.desc_clay_more
+        3 -> R.string.desc_kabaneri
+        4 -> R.string.desc_my_hero_acdemy
+        else -> R.string.desc_blue_period
+    }
+
+
 
 
     Column(
         modifier = Modifier
-            .fillMaxHeight()
-            .fillMaxWidth(),
+            .fillMaxSize()
+            .padding(24.dp),
+        verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
     ) {
-        Text(
-            text = stringResource(description),
-            fontSize = 18.sp
-        )
-        Text(
-            text = descriptionSqueeze,
-            fontSize = 16.sp
-        )
+        AnimeImage(image)
         Spacer(modifier = Modifier.height(16.dp))
-        Column(modifier = Modifier
-            .pointerInput(Unit) {
-                detectTapGestures(onPress = {
-                    currentState = BounceState.PRESSED
-                    tryAwaitRelease()
-                    currentState = BounceState.RELEASED
+        AnimeDescript(title, description)
+        Spacer(modifier = Modifier.height(16.dp))
+        ButtonNextPrev(
+            {
+                statePressButton = false
+                Log.d("main", "$statePressButton")
 
-                    stateProcess++
-                    if (stateProcess == 3) {
-                        stateProcess = 2
-                        squeezeLemonState++
-                        if (squeezeLemonState == 6) {
-                            squeezeLemonState = 0
-                            stateProcess++
-                        }
-
-                    }
-                    if (stateProcess > 4) stateProcess = 1
-
-                })
+                if (statePressButton == false) {
+                    stateImage--
+                    stateTitle--
+                    stateDesc--
+                }
+                if (stateImage == 0 && stateTitle == 0 && stateDesc == 0) {
+                    stateImage = 5
+                    stateTitle = 5
+                    stateDesc = 5
+                }
+            },
+            {
+                statePressButton = true
+                Log.d("main", "$statePressButton")
+                if (statePressButton == true) {
+                    stateImage++
+                    stateTitle++
+                    stateDesc++
+                }
+                if (stateImage > 5 && stateTitle > 5 && stateDesc > 5) {
+                    stateImage = 1
+                    stateTitle = 1
+                    stateDesc = 1
+                }
             }
+        )
+    }
+}
+
+@Composable
+fun AnimeImage(image: Int) {
+    Image(
+        painter = painterResource(image),
+        contentDescription = "one piece",
+        modifier = Modifier
+            .size(250.dp)
+    )
+}
+
+@Composable
+fun AnimeDescript(title: Int, description: Int) {
+
+    Card(
+        shape = MaterialTheme.shapes.medium,
+    ) {
+        Column(
+            modifier = Modifier
+                .width(300.dp)
+                .padding(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                painter = painterResource(imageResource),
-                contentDescription = stringResource(description),
-                modifier = Modifier
-                    .graphicsLayer {
-                        scaleX = scale
-                        scaleY = scale
-                    }
+            Text(text = stringResource(title))
+            Text(
+                text = stringResource(description),
+                textAlign = TextAlign.Center
             )
         }
     }
 }
 
+@Composable
+fun ButtonNextPrev(
+    statePrev: () -> Unit,
+    stateNext: () -> Unit
+) {
+
+    Row(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Button(
+            onClick = {
+                statePrev()
+            },
+        ) {
+            Text(text = "Previous")
+        }
+        Button(
+            onClick = {
+                stateNext()
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentWidth(align = Alignment.End)
+        ) {
+            Text(text = "Next")
+        }
+    }
+}
+
+
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview2() {
     AndroidBasicWithComposeTheme {
-        Drinking()
+        AnimeList()
     }
 }
